@@ -52,15 +52,15 @@ for i = 1:n+1
             [pp(2,i)-1/2*sle2*RR(2,i_h,i),pp(2,i)+1/2*sle2*RR(2,i_h,i)], 'ZData', ...
             [pp(3,i)-1/2*sle2*RR(3,i_h,i),pp(3,i)+1/2*sle2*RR(3,i_h,i)], 'Color',...
             [1,0.8431,0],'LineWidth', 3); 
-        %plot all axes
-        lHandle = line(nan, nan, nan);
-        set(lHandle, 'XData', [pp(1,i),pp(1,i)+sle*RR(1,1,i)], 'YData', [pp(2,i),pp(2,i)+sle*RR(2,1,i)], 'ZData', [pp(3,i),pp(3,i)+sle*RR(3,1,i)], 'Color', [1,0,0]);
-
-        lHandle = line(nan, nan, nan); 
-        set(lHandle, 'XData', [pp(1,i),pp(1,i)+sle*RR(1,2,i)], 'YData', [pp(2,i),pp(2,i)+sle*RR(2,2,i)], 'ZData', [pp(3,i),pp(3,i)+sle*RR(3,2,i)], 'Color', [0,1,0]);
-
-        lHandle = line(nan, nan, nan);
-        set(lHandle, 'XData', [pp(1,i),pp(1,i)+sle*RR(1,3,i)], 'YData', [pp(2,i),pp(2,i)+sle*RR(2,3,i)], 'ZData', [pp(3,i),pp(3,i)+sle*RR(3,3,i)], 'Color', [0,0,1]);
+%         %plot all axes
+%         lHandle = line(nan, nan, nan);
+%         set(lHandle, 'XData', [pp(1,i),pp(1,i)+sle*RR(1,1,i)], 'YData', [pp(2,i),pp(2,i)+sle*RR(2,1,i)], 'ZData', [pp(3,i),pp(3,i)+sle*RR(3,1,i)], 'Color', [1,0,0]);
+% 
+%         lHandle = line(nan, nan, nan); 
+%         set(lHandle, 'XData', [pp(1,i),pp(1,i)+sle*RR(1,2,i)], 'YData', [pp(2,i),pp(2,i)+sle*RR(2,2,i)], 'ZData', [pp(3,i),pp(3,i)+sle*RR(3,2,i)], 'Color', [0,1,0]);
+% 
+%         lHandle = line(nan, nan, nan);
+%         set(lHandle, 'XData', [pp(1,i),pp(1,i)+sle*RR(1,3,i)], 'YData', [pp(2,i),pp(2,i)+sle*RR(2,3,i)], 'ZData', [pp(3,i),pp(3,i)+sle*RR(3,3,i)], 'Color', [0,0,1]);
     else 
         %plot axes in xyz->rgb sequence
         lHandle = line(nan, nan, nan);

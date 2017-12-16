@@ -23,7 +23,7 @@ dq = zeros(n,1);
 R_des = R;
 
 % joint limits
-lower_limit = [-17*pi/18 -65*pi/180 -pi -300*pi/180 -120*pi/180 2*pi]';
+lower_limit = [-17*pi/18 -65*pi/180 -pi -300*pi/180 -120*pi/180 -2*pi]';
 upper_limit = [17*pi/18 85*pi/180 70*pi/180 300*pi/180 120*pi/180 2*pi]';
 
 % initialize inequality constraints
@@ -55,7 +55,7 @@ epsilon_in = 0.15;
 E = 0.001;
 
 % feedback coefficients for maintaining end-effector orientation
-Ke = 0.9;
+Ke = 10;
 
 % create a handle of these parameters for interactive modifications
 params = ControlParams(ex,ey,ez,n,P,H,type,dq_bounds,q,dq,pos,orien,pos_v,ang_v,w_t,v_t,...
@@ -84,7 +84,9 @@ p_eef = [];
 % display loop
 while ~params.controls.stop
     if (counter~=0)        
-        dt = toc;        
+        dt = toc;
+        dt_des = 0.15;
+        pause(dt_des - dt);
     end    
     tic
     counter = counter + 1;
@@ -92,6 +94,9 @@ while ~params.controls.stop
         % plots
         hold off;
         params.controls.q = params.controls.q + params.controls.dq*dt;
+        % update joint position and send to EGM
+        robot.joint_angle_setpoint = 180*params.controls.q / pi;
+        
         [pp,RR] = robot_3d(params.controls.q);
         view(params.plots.view_port);
         axis(params.plots.axes_lim);
@@ -167,7 +172,7 @@ while ~params.controls.stop
         V_desired = params.controls.pos_v
         V_now = J(4:6,:)*params.controls.dq
         v_real = [v_real V_now];
-        V_scaled = dq_sln(end)*V_desired
+        V_scaled = dq_sln(end)*V_desired;
         v_d = [v_d V_scaled];
         p_eef = [p_eef params.controls.pos];
         
@@ -202,7 +207,5 @@ while ~params.controls.stop
         button = [plus, minus, vx, vy, vz];
         func_xbox(button, params);
         
-        % update joint position and send to EGM
-        robot.joint_angle_setpoint = 180*params.controls.q / pi;
     end
 end
