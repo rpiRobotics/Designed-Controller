@@ -125,15 +125,15 @@ while ~params.controls.stop
         A_eq = [J(1:3,:) zeros(3, 2)];
         w_skew = logm(RR(:,:,end)*R_des');
         w = [w_skew(3, 2) w_skew(1, 3) w_skew(2, 1)];
-        b_eq = -Ke*w;
+        b_eq = -Ke*w';
         
         % inequality constrains
         h(1:6) = params.controls.q - lower_limit;
         h(7:12) = upper_limit - params.controls.q;
 
-        dx = abs(params.controls.pos(1) - x1);
-        dy = abs(params.controls.pos(2) - y1);
-        dz = abs(params.controls.pos(3) - z1);
+        dx = -(params.controls.pos(1) - x1);
+        dy = -(params.controls.pos(2) - y1);
+        dz = -(params.controls.pos(3) - z1);
         
         dist = sqrt(dx^2 + dy^2 + dz^2) - radius;
         
@@ -147,7 +147,7 @@ while ~params.controls.stop
         sigma(13) = inequality_bound(h(13), c, eta, epsilon_in, E);
         
         A = -dhdq;
-        b = -sigma;
+        b = -sigma';
                
         % bounds for qp
         if(params.opt.upper_dq_bounds)
@@ -163,7 +163,7 @@ while ~params.controls.stop
         options = optimset('Display', 'off');
        
         %dq_sln = quadprog(H,f,A,b,[],[],LB,UB,params.controls.dq,options);   
-        dq_sln = quadprog(H,f,A,b,A_eq,b_eq,LB,UB,params.controls.dq,options); 
+        dq_sln = quadprog(H,f,A,b,A_eq,b_eq,LB,UB,[params.controls.dq; 0; 0],options); 
 
         % update joint velocities
         params.controls.dq = dq_sln(1:params.def.n);
